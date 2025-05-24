@@ -24,7 +24,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _codeController = TextEditingController(text: "return 6*7");
   String _luaVersion = "Unknown";
-  LuaThread _luaThread;
+  LuaThread? _luaThread;
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String luaVersion;
-    LuaThread luaThread;
+    LuaThread? luaThread;
 
     // Platform messages may fail, so we catch platform exceptions:
     try {
@@ -81,19 +81,27 @@ class _MyAppState extends State<MyApp> {
                     decoration: InputDecoration(
                       hintText: "Your code",
                       contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(16)),
                     ),
                   ),
                   SizedBox(height: 8),
-                  RaisedButton(
-                    child: Text("Evaluate", style: TextStyle(color: Colors.white)),
-                    onPressed: (_luaThread != null) ? () => _evaluate(context) : null,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(24),
+                  ElevatedButton(
+                    onPressed:
+                        (_luaThread != null) ? () => _evaluate(context) : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.all(12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
                     ),
-                    padding: EdgeInsets.all(12),
-                    color: Colors.blueAccent,
-                  ),
+                    child: Text(
+                      "Evaluate",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
                 ],
               ),
             );
@@ -104,10 +112,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _evaluate(final BuildContext context) async {
-    final result = await _luaThread.eval(_codeController.text);
-    Scaffold.of(context).showSnackBar(
+    final result = await _luaThread!.eval(_codeController.text);
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(result.toString(), textAlign: TextAlign.center),
+        content: Text(
+          result.toString(),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

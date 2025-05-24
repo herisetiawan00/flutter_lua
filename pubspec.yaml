@@ -3,7 +3,6 @@ name: flutter_lua
 version: 0.3.1
 description: >-
   Lua interpreter and runtime for executing dynamic scripts in Flutter apps.
-author: Arto Bendiken <arto@bendiken.net>
 homepage: https://github.com/drydart/flutter_lua
 documentation:
 dependencies:
@@ -16,7 +15,7 @@ dev_dependencies:
   test: any
 dependency_overrides:
 environment:
-  sdk: '>=2.1.0 <3.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 executables:
 flutter:
   plugin:

@@ -11,14 +11,16 @@ class LuaError implements IOException {
   const LuaError(this.message);
 
   LuaError.from(final PlatformException exception)
-      : message = exception.message;
+      : message = exception.message ?? '';
 
   @override
   String toString() {
     final buffer = StringBuffer();
     buffer.write("LuaError");
     if (message.isNotEmpty) {
-      buffer..write(": ")..write(message);
+      buffer
+        ..write(": ")
+        ..write(message);
     }
     return buffer.toString();
   }
